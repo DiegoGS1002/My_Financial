@@ -2,40 +2,29 @@
 
 Sistema de gestão financeira completo desenvolvido com Laravel 13 + Livewire 4 + Tailwind CSS.
 
-## 🚀 Quick Start
-
-```bash
-# Servidor rodando em:
-http://localhost:9000
-```
-
 ## ✨ Módulos Implementados
 
 ### ✅ 1. Home / Dashboard
 - Interface com assistente de IA (UI pronta)
 - Cards KPI com estatísticas do Plano de Contas
 - Ações rápidas e resumo mensal
-- **Acesso:** http://localhost:9000
 
 ### ✅ 2. Plano de Contas
 - Visualização hierárquica em árvore
 - 71 contas pré-cadastradas
 - Filtros por tipo (Receita, Despesa, Ativo, Passivo)
 - CRUD completo com modais
-- **Acesso:** http://localhost:9000/financeiro/plano-contas
 
 ### ✅ 3. Lançamentos
 - Registro de receitas e despesas
 - Filtros avançados (período, tipo, método pagamento)
 - Paginação e busca em tempo real
-- **Acesso:** http://localhost:9000/financeiro/lancamentos
 
 ### ✅ 4. Relatórios (NOVO!)
 - 📊 Gráficos interativos com Chart.js
 - 📈 KPIs em tempo real
 - 📋 Tabelas detalhadas
 - 🎯 Filtros de período personalizáveis
-- **Acesso:** http://localhost:9000/financeiro/relatorios
 - **Documentação:** [RELATORIOS.md](RELATORIOS.md)
 
 ## 📊 Funcionalidades dos Relatórios
