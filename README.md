@@ -1,118 +1,224 @@
-# 💰 MF My Financial
+# My Financial
 
-Sistema de gestão financeira completo desenvolvido com Laravel 13 + Livewire 4 + Tailwind CSS.
+Aplicação web para organizar receitas e despesas, estruturar um plano de contas e acompanhar indicadores financeiros em relatórios interativos.
 
-## ✨ Módulos Implementados
+O projeto é desenvolvido com Laravel 13, Livewire 4 e Tailwind CSS 4. A interface está em português e reúne o fluxo financeiro em três módulos principais: plano de contas, lançamentos e relatórios.
 
-### ✅ 1. Home / Dashboard
-- Interface com assistente de IA (UI pronta)
-- Cards KPI com estatísticas do Plano de Contas
-- Ações rápidas e resumo mensal
+## Funcionalidades
 
-### ✅ 2. Plano de Contas
-- Visualização hierárquica em árvore
-- 71 contas pré-cadastradas
-- Filtros por tipo (Receita, Despesa, Ativo, Passivo)
-- CRUD completo com modais
+### Dashboard
 
-### ✅ 3. Lançamentos
-- Registro de receitas e despesas
-- Filtros avançados (período, tipo, método pagamento)
-- Paginação e busca em tempo real
+- Resumo do plano de contas por tipo.
+- Atalhos para os módulos financeiros.
+- Histórico dos lançamentos mais recentes.
+- Interface de assistente financeiro em formato de chat.
 
-### ✅ 4. Relatórios (NOVO!)
-- 📊 Gráficos interativos com Chart.js
-- 📈 KPIs em tempo real
-- 📋 Tabelas detalhadas
-- 🎯 Filtros de período personalizáveis
-- **Documentação:** [RELATORIOS.md](RELATORIOS.md)
+> O assistente usa respostas simuladas nesta versão. Ainda não há integração com um provedor de IA nem criação automática de lançamentos pelo chat.
 
-## 📊 Funcionalidades dos Relatórios
+### Plano de contas
 
-### Gráficos
-- Receitas vs Despesas por mês (linha)
-- Top 10 Despesas por categoria (barra)
-- Top 10 Receitas por categoria (barra)
-- Distribuição por método de pagamento (rosca)
+- Estrutura hierárquica de contas e subcontas.
+- Categorias de receita, despesa, ativo e passivo.
+- Pesquisa e filtros por tipo e situação.
+- Criação, edição e exclusão de contas.
+- Controle de contas ativas e de contas disponíveis para receber lançamentos.
+- Carga inicial com uma estrutura contábil de exemplo.
 
-### Tabelas
-- Top 10 maiores receitas/despesas
-- Resumo estatístico por categoria
-- Evolução diária com saldo
+### Lançamentos
 
-### Filtros
-- Este Mês / Trimestre / Ano
-- Período personalizado
+- Cadastro de receitas e despesas.
+- Associação ao plano de contas.
+- Registro de data, valor, forma de pagamento, documento de referência e observações.
+- Pesquisa, paginação e filtros por período, tipo e forma de pagamento.
+- Edição e exclusão de registros.
 
-## 🎨 Design System
+### Relatórios
 
-Sistema completo de classes CSS com prefixo `nx-*`:
-- Sidebar responsiva
-- Cards KPI
-- Modais animados
-- Tree view hierárquica
-- Chat interface
-- Componentes de formulário
+- Indicadores de receitas, despesas, saldo e quantidade de lançamentos.
+- Comparativo mensal de receitas e despesas.
+- Ranking de receitas e despesas por categoria.
+- Distribuição por forma de pagamento.
+- Maiores receitas e despesas.
+- Resumo estatístico por categoria e evolução diária.
+- Filtros para mês, trimestre, ano ou período personalizado.
 
-**Documentação:** [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)
+> Os botões de exportação CSV e PDF estão visíveis na interface, mas a geração dos arquivos ainda não foi implementada.
 
-## 🗄️ Banco de Dados
+## Tecnologias
 
-- **Database:** `meu_financeiro`
-- **Contas:** 71 pré-cadastradas
-- **Transações:** 82 de exemplo (últimos 6 meses)
+- PHP 8.3 ou superior
+- Laravel 13
+- Livewire 4
+- MySQL
+- Tailwind CSS 4
+- Alpine.js
+- Chart.js
+- Vite 8
+- Pest 4
 
-### Executar Seeders
+## Requisitos
+
+Para executar localmente:
+
+- PHP 8.3+ com as extensões exigidas pelo Laravel e `pdo_mysql`
+- Composer 2
+- Node.js 20.19+ ou 22.12+
+- MySQL
+
+Como alternativa, é possível usar Docker e Docker Compose. Nesse caso, apenas Docker é necessário na máquina host.
+
+## Instalação local
+
+1. Instale as dependências e crie o arquivo de ambiente:
+
+   ```bash
+   composer install
+   cp .env.example .env
+   npm install
+   ```
+
+2. Configure o banco no `.env`. Os valores padrão esperam um MySQL local:
+
+   ```dotenv
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=meu_financeiro
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+3. Gere a chave, prepare o banco e compile os assets:
+
+   ```bash
+   php artisan key:generate
+   php artisan migrate --seed
+   npm run build
+   ```
+
+4. Inicie o ambiente de desenvolvimento:
+
+   ```bash
+   composer run dev
+   ```
+
+A aplicação ficará disponível em `http://127.0.0.1:8000`.
+
+O script `composer run setup` automatiza a instalação inicial, mas executa somente as migrations. Para carregar o plano de contas e os lançamentos de demonstração, rode também:
 
 ```bash
+php artisan db:seed
+```
+
+## Instalação com Docker
+
+1. Crie o arquivo de ambiente:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Ajuste a conexão para o serviço MySQL definido no `docker-compose.yml`:
+
+   ```dotenv
+   DB_CONNECTION=mysql
+   DB_HOST=mysql
+   DB_PORT=3306
+   DB_DATABASE=financial
+   DB_USERNAME=financial
+   DB_PASSWORD=123456
+   ```
+
+3. Construa e inicie os contêineres:
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+4. Instale as dependências e inicialize a aplicação:
+
+   ```bash
+   docker compose exec app composer install
+   docker compose exec app npm install
+   docker compose exec app php artisan key:generate
+   docker compose exec app php artisan migrate --seed
+   docker compose exec app npm run build
+   ```
+
+A aplicação ficará disponível em `http://localhost:8000`. O MySQL também é exposto no host pela porta `3307`.
+
+## Comandos úteis
+
+```bash
+# Ambiente completo de desenvolvimento
+composer run dev
+
+# Servidor da aplicação, sem os demais processos
+php artisan serve
+
+# Vite em modo de desenvolvimento
+npm run dev
+
+# Build dos assets
+npm run build
+
+# Testes
+composer test
+
+# Formatação do código PHP
+./vendor/bin/pint
+
+# Recriar o banco com os dados de demonstração
 php artisan migrate:fresh --seed
 ```
 
-## 🛠️ Stack Tecnológica
+## Rotas principais
 
-- **Backend:** Laravel 13, PHP 8.3
-- **Frontend:** Livewire 4, Alpine.js
-- **CSS:** Tailwind CSS v4
-- **Charts:** Chart.js 4.4.0
-- **Database:** MySQL
-- **Build:** Vite
+| Rota | Módulo |
+| --- | --- |
+| `/` | Dashboard e assistente financeiro demonstrativo |
+| `/financeiro/plano-contas` | Plano de contas |
+| `/financeiro/lancamentos` | Lançamentos financeiros |
+| `/financeiro/relatorios` | Indicadores, gráficos e tabelas |
 
-## 📁 Estrutura Principal
+## Estrutura do projeto
 
+```text
+app/
+├── Livewire/
+│   ├── Home.php
+│   └── Financeiro/
+│       ├── Lancamentos.php
+│       ├── PlanoContas.php
+│       └── Relatorios.php
+└── Models/
+    ├── FinancialTransaction.php
+    └── PlanOfAccount.php
+
+database/
+├── migrations/
+└── seeders/
+    ├── FinancialTransactionSeeder.php
+    └── PlanoContasSeeder.php
+
+resources/
+├── css/app.css
+├── js/app.js
+└── views/
+    ├── layouts/app.blade.php
+    └── livewire/
 ```
-app/Livewire/
-├── Home.php
-└── Financeiro/
-    ├── PlanoContas.php
-    ├── Lancamentos.php
-    └── Relatorios.php         # NOVO!
 
-resources/views/livewire/
-├── home/
-├── financeiro/
-    ├── plano-contas/
-    ├── lancamentos/
-    └── relatorios/            # NOVO!
+## Dados de demonstração
 
-database/seeders/
-├── PlanoContasSeeder.php
-└── FinancialTransactionSeeder.php
-```
+O comando `php artisan migrate:fresh --seed` cria:
 
-## 🎯 Próximos Passos
+- um usuário de teste (`test@example.com`);
+- um plano de contas hierárquico para receitas, custos, despesas, ativos e passivos;
+- lançamentos aleatórios distribuídos pelos últimos seis meses.
 
-- [ ] Integração com IA no chat
-- [ ] Exportação CSV/PDF
-- [ ] Módulo de configurações
-- [ ] Sistema de autenticação
-- [ ] Notificações e alertas
+O projeto ainda não expõe um fluxo de autenticação, portanto o usuário criado pelo seeder não é necessário para acessar os módulos atuais.
 
-## 📚 Documentação
+## Estado atual
 
-- [IMPLEMENTATION.md](IMPLEMENTATION.md) - Detalhes da implementação
-- [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) - Guia de design
-- [RELATORIOS.md](RELATORIOS.md) - Módulo de relatórios
-
----
-
-**Desenvolvido com Laravel 13 + Livewire 4 + Tailwind CSS v4**
+Em desenvolvimento. As principais funcionalidades de cadastro, consulta e análise estão disponíveis. Integração real com IA, autenticação e exportação de relatórios permanecem pendentes.
